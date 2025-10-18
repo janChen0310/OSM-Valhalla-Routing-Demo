@@ -1,0 +1,6 @@
+.venv/
+custom_files/
+*__pycache__/
+*.png
+*.json
+*.log
