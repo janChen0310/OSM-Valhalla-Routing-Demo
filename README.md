@@ -14,14 +14,28 @@ pip install -r requirements.txt
 2) Download the Michigan PBF and clip to North Campus (recommended):
 
 ```bash
-bash scripts/download_osm.sh
-# Requires osmium-tool: sudo apt-get install -y osmium-tool
-bash scripts/clip_north_campus.sh custom_files/michigan-latest.osm.pbf
+# Requires osmium-tool
+bash scripts/fetch_osm.sh
 ```
 
-This writes `custom_files/north-campus.osm.pbf` focused on North Campus.
+3) Build Valhalla config and tiles
 
-3) Run Valhalla locally with your PBF(s):
+Generate `custom_files/valhalla.json` and routing tiles (Docker required):
+
+```bash
+bash scripts/build_valhalla.sh
+# Or specify a different extract:
+# bash scripts/build_valhalla.sh custom_files/michigan-latest.osm.pbf
+```
+
+This creates:
+- `custom_files/valhalla.json`
+- `custom_files/valhalla_tiles/` (directory tiles)
+- Optionally `custom_files/valhalla_tiles.tar` (not used by default)
+
+Note: The config is set to prefer directory tiles to avoid file-descriptor issues. If you want to use the tar extract, set `mjolnir.tile_extract` in `valhalla.json` to `/custom_files/valhalla_tiles.tar`.
+
+4) Run Valhalla locally with your PBF(s):
 
 - Option A (script):
 ```bash
